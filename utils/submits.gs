@@ -22,9 +22,13 @@ function onSubmitForm(e) {
     'payload' : JSON.stringify(formData),
     'contentType': 'application/json',
   };
-  
+
+  username = 'USERNAME'
+  password = 'PASSWORD'
+  options.headers = {"Authorization": "Basic " + Utilities.base64Encode(username + ":" + password)};
+
   // cambiar la url por una donde este escuchando el servidor de gunicorn
   // se recomienda usar nginx proxy server
-  response = UrlFetchApp.fetch('http://69f3a027.ngrok.io', options);
+  response = UrlFetchApp.fetch('http://push-devot.chiledevs.com', options);
   Logger.log(response);
 }

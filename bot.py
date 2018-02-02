@@ -59,6 +59,7 @@ def set_post_chat_callback(bot, update):
 
 def set_admin_chat_callback(bot, update, args):
   global admin_chat_id
+  global adminchat_set
   if not adminchat_set and args[0] == connvars.secret_passwd:
     adminchat_set = True
     admin_chat_id = update.message.chat_id
