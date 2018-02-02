@@ -98,7 +98,7 @@ def handle_offer(bot, update):
     cleaned_offer['response'].pop('Email de respuesta', None)
     msg += format_offer(cleaned_offer)
     bot.sendMessage(
-      chat_id='@chiledevstest',
+      chat_id='@canalDevsChile',
       text=msg,
       parse_mode=telegram.ParseMode.MARKDOWN,
       disable_web_page_preview=True
