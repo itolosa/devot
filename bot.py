@@ -128,7 +128,7 @@ def handle_offer(bot, update):
     )
     job_offer = db.job_offers.find_one({ '_id': offer_id })
     job_offer.pop('_id', None)
-    to_email = job_offer['Email de respuesta']
+    to_email = job_offer['response']['Email de respuesta']
     mailer.send_mail.delay(to_email, job_offer)
     bot.edit_message_text(
       text="Oferta rechazada!",
