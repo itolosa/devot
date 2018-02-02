@@ -65,7 +65,7 @@ def set_admin_chat_callback(bot, update, args):
     admin_chat_id = update.message.chat_id
     update.message.reply_text('✅ admin_chat_id updated!')
   else:
-    print('❌ Access denied!')
+    update.message.reply_text('❌ Access denied!')
 
 def start_callback(bot, update):
   msg = "Use /shipping to get an invoice for shipping-payment, "
