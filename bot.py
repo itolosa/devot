@@ -17,6 +17,7 @@ import copy
 import mailer
 
 
+adminchat_set = False
 bot = None
 admin_chat_id = None
 post_chat_id = None
@@ -44,22 +45,26 @@ def build_menu(
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
           level=logging.INFO)
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 def error(bot, update, error):
   """Log Errors caused by Updates."""
-  logger.warning('Update "%s" caused error "%s"', update, error)
+  log.warning('Update "%s" caused error "%s"', update, error)
 
 def set_post_chat_callback(bot, update):
   global post_chat_id
   post_chat_id = update.message.chat_id
   update.message.reply_text('post_chat_id updated!')
 
-def set_admin_chat_callback(bot, update):
+def set_admin_chat_callback(bot, update, args):
   global admin_chat_id
-  admin_chat_id = update.message.chat_id
-  update.message.reply_text('admin_chat_id updated!')
+  if not adminchat_set and args[0] == connvars.secret_passwd:
+    adminchat_set = True
+    admin_chat_id = update.message.chat_id
+    update.message.reply_text('✅ admin_chat_id updated!')
+  else:
+    print('❌ Access denied!')
 
 def start_callback(bot, update):
   msg = "Use /shipping to get an invoice for shipping-payment, "
@@ -226,7 +231,7 @@ def main():
 
   # simple start function
   dp.add_handler(CommandHandler("start", start_callback))
-  dp.add_handler(CommandHandler("setadminchat", set_admin_chat_callback))
+  dp.add_handler(CommandHandler("setadminchat", set_admin_chat_callback, pass_args=True))
   dp.add_handler(CommandHandler("setpostchat", set_post_chat_callback))
   dp.add_handler(CommandHandler("review", unseen_offers))
   dp.add_handler(CallbackQueryHandler(handle_offer))
